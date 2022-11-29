@@ -64,6 +64,7 @@ const char* const layerNames[] PROGMEM   = {
 #define LMOV(kc) LT(_MOVEMENT,kc)
 #define LBRACK(kc) LT(_BRACKETS,kc)
 #define LFUN(kc) LT(_FUNCTION,kc)
+#define LFN2(kc) LT(_FUNCTION2,kc)
 #define LMOUSE(kc) LT(_MOUSE,kc)
 #define LNUMPAD(kc) LT(_NUMPAD,kc)
 // #define LAPP(kc) LT(_APPS,kc)
@@ -82,7 +83,7 @@ const char* const layerNames[] PROGMEM   = {
 #define KC_PC_PASTE LCTL(KC_V)
 #define RDIAL_CLK KC_AUDIO_MUTE
 #define LDIAL_CLK TO(0)
-#define KC_MISSING KC_TRANSPARENT
+#define KC_MISS _______
 
 // Note: LAlt/Enter (ALT_ENT) is not the same thing as the keyboard shortcut Alt+Enter.
 // The notation `mod/tap` denotes a key that activates the modifier `mod` when held down, and
@@ -101,15 +102,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+-------+-------------.  ,-------------+------+-------+------+------+------+--------|
  * | LClick |   Z  |   X  |   C  |   V  |   B   |      |      |  |      |      |   K  |M(mous)| ,(Sh)|.(Alt)|/(Ctr)| RClick |
  * `----------------------+------+------+-------+------+------|  |------+------+------+-------+------+----------------------'
- *                        |Copy  | Paste| Cut   |BSpace| Esc  |  | Enter| Space| Del  | Left  | Right|
+ *                        |Copy  | Paste| Cut   |BSPC  | Esc  |  | Enter| Space| Del  | Left  | Right|
  *                        |      |      |       |      |      |  |      |(Sym) |      |       |      |
  *                        `-----------------------------------'  `-----------------------------------'
  */
     [_COLEMAK] = LAYOUT(
-     KC_PC_UNDO, KC_Q        ,LGUI_T(KC_W), KC_F        , LNUMPAD(KC_P), KC_G,                                        KC_J,   KC_L      ,  KC_U          ,   KC_Y       ,KC_SCLN           , KC_UP,
-     KC_TAB    , LSFT_T(KC_A),LBRACK(KC_R), LMOV(KC_S)  , LNUM(KC_T)   , KC_D      ,                                         KC_H,   KC_N      ,  KC_E          ,   KC_I       ,RSFT_T(KC_O)      , KC_DOWN,
-     LDIAL_CLK , LCTL_T(KC_Z),LALT_T(KC_X), LSFT_T(KC_C), LFUN(KC_V)   , KC_B      ,KC_MISSING, KC_MISSING , KC_MISSING, KC_MISSING, KC_K,LMOUSE(KC_M) ,RSFT_T(KC_COMMA),RALT_T(KC_DOT), RCTL_T(KC_BSLASH), RDIAL_CLK,
-                                            KC_PC_COPY  ,KC_PC_PASTE   ,KC_PC_CUT  ,KC_BSPACE ,KC_ESCAPE ,KC_ENTER, LSYM(KC_SPACE),KC_DELETE, KC_LEFT, KC_RIGHT
+     KC_PC_UNDO, KC_Q        ,LGUI_T(KC_W), KC_F        , LNUMPAD(KC_P), KC_G,                                                  KC_J     , KC_L       , KC_U           , KC_Y         ,KC_SCLN        , KC_UP,
+     KC_TAB    , LSFT_T(KC_A),LBRACK(KC_R), LMOV(KC_S)  , LNUM(KC_T)   , KC_D,                                                  KC_H     , KC_N       , KC_E           , KC_I         ,RSFT_T(KC_O)   , KC_DOWN,
+     LDIAL_CLK , LCTL_T(KC_Z),LALT_T(KC_X), LSFT_T(KC_C), LFUN(KC_V)   , KC_B      ,KC_MISS, KC_MISS , KC_MISS, KC_MISS        ,KC_K     ,LMOUSE(KC_M),RSFT_T(KC_COMMA),RALT_T(KC_DOT),RCTL_T(KC_BSLS), RDIAL_CLK,
+                                            KC_PC_COPY  ,KC_PC_PASTE   ,KC_PC_CUT  ,KC_BSPC,KC_ESCAPE,KC_ENTER, LSYM(KC_SPACE) ,KC_DELETE,KC_LEFT     , KC_RIGHT
     ),
 
 /*
@@ -120,16 +121,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |        |  @   |  *   |  !   |  "   |  $   |                              |   #  |  =   |  _   |  :   |      |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * | Click  | LCtrl|\(alt)|  ^   |  |   |  `   |      |      |  |      |      |   ]  |  _   |  ,   |  .   |  /   | Click  |
+ * | Click  | LCTL |\(alt)|  ^   |  |   |  `   |      |      |  |      |      |   ]  |  _   |  ,   |  .   |  /   | Click  |
  * `----------------------+------+------+------+      |      |  |      |      |------+------+------+----------------------'
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
     [_SYMBOLS] = LAYOUT(
-      _______,  KC_NUMLOCK, KC_QUES          , KC_SLASH,KC_PERC, TODEFAULT,                                     KC_CAPSLOCK, KC_TILD,  KC_PLUS, KC_AMPR, XXXXXXX, XXXXXXX,
-      _______,  KC_AT     , KC_ASTR          , KC_EXLM, KC_DQUO, KC_DLR,                                        KC_HASH,  KC_SCOLON  , KC_EQUAL, KC_UNDS, KC_COLN, KC_DQUO,
-      LDIAL_CLK,KC_LCTRL  , LALT_T(KC_BSLASH), KC_CIRC, KC_PIPE, KC_GRAVE,  KC_MISSING, KC_MISSING, KC_MISSING, KC_MISSING, KC_SPACE, KC_MINUS   , KC_QUOTE, KC_LABK, KC_RABK, RDIAL_CLK,
-                                               _______, _______, _______,  _______, _______, _______, _______,   _______, _______    , _______
+      _______,  KC_NUM_LOCK, KC_QUES         , KC_SLASH,KC_PERC, TODEFAULT,                                     KC_CAPS_LOCK, KC_TILD     , KC_PLUS , KC_AMPR, XXXXXXX, XXXXXXX,
+      _______,  KC_AT     , KC_ASTR          , KC_EXLM, KC_DQUO, KC_DLR,                                        KC_HASH     , KC_SEMICOLON, KC_EQUAL, KC_UNDS, KC_COLN, KC_DQUO,
+      LDIAL_CLK,KC_LCTL   , LALT_T(KC_BSLS  ), KC_CIRC, KC_PIPE, KC_GRAVE,  KC_MISS, KC_MISS, KC_MISS, KC_MISS, KC_SPACE    , KC_MINUS    , KC_QUOTE, KC_LABK, KC_RABK, RDIAL_CLK,
+                                               _______, _______, _______,  _______, _______, _______, _______,  _______     , _______     , _______
     ),
 
 /*
@@ -140,15 +141,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |        |  @   |  *   |  !   |  "   |  $   |                              |   #  |  =   |  _   |  :   |      |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * | Click  | LCtrl|\(alt)|  ^   |  |   |  `   |      |      |  |      |      |   ]  |  _   |  ,   |  .   |  /   | Click  |
+ * | Click  | LCTL |\(alt)|  ^   |  |   |  `   |      |      |  |      |      |   ]  |  _   |  ,   |  .   |  /   | Click  |
  * `----------------------+------+------+------+      |      |  |      |      |------+------+------+----------------------'
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
     [_NUMBERS] = LAYOUT(
-      KC_NUMLOCK,  KC_NO,          KC_LGUI,        KC_NO,          KC_NO,          TODEFAULT,                   KC_KP_SLASH,    KC_7,           KC_8,           KC_9,           KC_KP_ASTERISK, TO(_PASS),
-      _______,  KC_LCTRL,       KC_LALT,        KC_LSHIFT,      KC_TRANSPARENT, KC_NO,                          KC_DOT,      KC_4,           KC_5,           KC_6,           KC_KP_PLUS,     KC_BSPACE,
-      LDIAL_CLK,KC_LCTRL  , LALT_T(KC_BSLASH), KC_CIRC, KC_PIPE, KC_GRAVE,  KC_MISSING, KC_MISSING, KC_MISSING, KC_MISSING, KC_COMMA,       KC_1,           KC_2,           KC_3, _______, RDIAL_CLK,
+      KC_NUM_LOCK, KC_NO   , KC_LGUI        , KC_NO  , KC_NO  , TODEFAULT,                                     KC_KP_SLASH, KC_7,           KC_8,           KC_9,           KC_KP_ASTERISK, TO(_PASS),
+      _______    , KC_LCTL , KC_LALT        , KC_LSFT, _______, KC_NO    ,                                     KC_DOT,      KC_4,           KC_5,           KC_6,           KC_KP_PLUS,     KC_BSPC  ,
+      LDIAL_CLK  , KC_LCTL , LALT_T(KC_BSLS), KC_CIRC, KC_PIPE, KC_GRAVE , KC_MISS, KC_MISS, KC_MISS, KC_MISS, KC_COMMA,       KC_1,           KC_2,           KC_3, _______, RDIAL_CLK,
                                                _______, _______, _______,  _______, _______, _______, _______,   _______,     KC_0,      KC_KP_MINUS 
     ),
 
@@ -160,15 +161,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |        |  @   |  *   |  !   |  "   |  $   |                              |   #  |  =   |  _   |  :   |      |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * | Click  | LCtrl|\(alt)|  ^   |  |   |  `   |      |      |  |      |      |   ]  |  _   |  ,   |  .   |  /   | Click  |
+ * | Click  | LCTL |\(alt)|  ^   |  |   |  `   |      |      |  |      |      |   ]  |  _   |  ,   |  .   |  /   | Click  |
  * `----------------------+------+------+------+      |      |  |      |      |------+------+------+----------------------'
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
     [_MOVEMENT] = LAYOUT(
       _______,  KC_NO,          KC_LGUI,        KC_NO,          KC_NO,          TODEFAULT,                                              LCTL(KC_HOME),  KC_HOME,        KC_UP,          KC_PGUP,        KC_INSERT, DYN_REC_START1,
-      _______,  KC_LCTRL,       KC_LALT,        _______,      KC_LSHIFT, KC_NO,                                       LCTL(KC_LEFT),  KC_LEFT,        KC_DOWN,        KC_RIGHT,       LCTL(KC_RIGHT), LCTL(KC_GRAVE),
-      LDIAL_CLK,KC_NO,          KC_NO,          KC_NO,          KC_LCTRL,       LCTL(KC_GRAVE),  KC_MISSING, KC_MISSING, KC_MISSING, KC_MISSING, LCTL(KC_END),   KC_END,         KC_TAB,         KC_PGDOWN,      KC_SCROLLLOCK, RDIAL_CLK,
+      _______,  KC_LCTL ,       KC_LALT,        _______,      KC_LSFT, KC_NO,                                       LCTL(KC_LEFT),  KC_LEFT,        KC_DOWN,        KC_RIGHT,       LCTL(KC_RIGHT), LCTL(KC_GRAVE),
+      LDIAL_CLK,KC_NO,          KC_NO,          KC_NO,          KC_LCTL ,       LCTL(KC_GRAVE),  KC_MISS, KC_MISS, KC_MISS, KC_MISS, LCTL(KC_END),   KC_END,         KC_TAB,         KC_PGDN,      KC_SCROLL_LOCK, RDIAL_CLK,
                                                _______, _______, _______,  KC_PC_UNDO, KC_PC_REDO, KC_PC_COPY, KC_PC_PASTE,   KC_DELETE,      KC_INSERT   , KC_WWW_BACK
     ),
 
@@ -180,15 +181,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |        |  @   |  *   |  !   |  "   |  $   |                              |   #  |  =   |  _   |  :   |      |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * | Click  | LCtrl|\(alt)|  ^   |  |   |  `   |      |      |  |      |      |   ]  |  _   |  ,   |  .   |  /   | Click  |
+ * | Click  | LCTL |\(alt)|  ^   |  |   |  `   |      |      |  |      |      |   ]  |  _   |  ,   |  .   |  /   | Click  |
  * `----------------------+------+------+------+      |      |  |      |      |------+------+------+----------------------'
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
     [_BRACKETS] = LAYOUT(
-      _______,  KC_NO,          KC_LGUI,        KC_NO,          KC_NO,          TODEFAULT,                       KC_TRANSPARENT, LCTL(KC_GRAVE), LCTL(KC_SLASH), LALT(LSFT(KC_A)),LCTL(LSFT(KC_BSLASH)),_______,
-      _______,  KC_LCTRL,      _______, KC_LALT,        KC_LSHIFT, KC_NO,                                       LCTL(LSFT(KC_BSLASH)),KC_LPRN,        KC_LCBR,        KC_LBRACKET,    KC_LABK, _______,
-      LDIAL_CLK,KC_NO,          KC_NO,          KC_NO,          KC_NO,      KC_NO,  KC_MISSING, KC_MISSING, KC_MISSING, KC_MISSING, KC_TRANSPARENT, KC_RPRN,        KC_RCBR,        KC_RBRACKET,    KC_RABK,  RDIAL_CLK,
+      _______,  KC_NO,          KC_LGUI,        KC_NO,          KC_NO,          TODEFAULT,                       _______, LCTL(KC_GRAVE), LCTL(KC_SLASH), LALT(LSFT(KC_A)),LCTL(LSFT(KC_BSLS  )),_______,
+      _______,  KC_LCTL ,      _______, KC_LALT,        KC_LSFT, KC_NO,                                       LCTL(LSFT(KC_BSLS  )),KC_LPRN,        KC_LCBR,        KC_LEFT_BRACKET,    KC_LABK, _______,
+      LDIAL_CLK,KC_NO,          KC_NO,          KC_NO,          KC_NO,      KC_NO,  KC_MISS, KC_MISS, KC_MISS, KC_MISS, _______, KC_RPRN,        KC_RCBR,        KC_RIGHT_BRACKET,    KC_RABK,  RDIAL_CLK,
                                                _______, _______, _______,  _______, _______, _______, _______,   _______,      _______   , _______
     ),
 
@@ -209,10 +210,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        `----------------------------------'  `----------------------------------'
  */
     [_FUNCTION] = LAYOUT(
-      _______,  KC_NO,          KC_LGUI,        KC_NO,          KC_NO,          TODEFAULT,                       _______, KC_F7,          KC_F8,          KC_F9,_______,RESET,
-      _______,  KC_NO,  KC_NO,    _______, KC_LALT,        KC_NO,                                        _______,KC_F4,          KC_F5,          KC_F6,    _______, _______,
-      LDIAL_CLK,KC_LCTRL,       KC_LALT,        KC_LSHIFT,          _______,      KC_NO,  KC_MISSING, KC_MISSING, KC_MISSING, KC_MISSING, _______, KC_F1,          KC_F2,          KC_F3,    _______,  RDIAL_CLK,
-                                               _______, _______, _______,  _______, KC_SYSTEM_SLEEP, _______, _______,   KC_F10,         KC_F11,         KC_F12
+      _______  , KC_NO  , KC_LGUI, KC_NO  , KC_NO  , TODEFAULT,                                      _______, KC_F7,  KC_F8, KC_F9, _______, QK_REBOOT,
+      _______  , KC_NO  , KC_NO  , _______, KC_LALT, KC_NO    ,                                      _______, KC_F4,  KC_F5, KC_F6, _______, _______  ,
+      LDIAL_CLK, KC_LCTL, KC_LALT, KC_LSFT, _______, KC_NO    ,  KC_MISS, KC_MISS, KC_MISS, KC_MISS, _______, KC_F1,  KC_F2, KC_F3, _______, RDIAL_CLK,
+                                            _______, _______  , _______ , _______, KC_SLEP, _______, _______, KC_F10, KC_F11,KC_F12
     ),
 
 /*
@@ -225,15 +226,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+-------+-------------.  ,-------------+------+-------+------+------+------+--------|
  * | LClick |   Z  |   X  |   C  |   V  |   B   |      |      |  |      |      |   K  |M(mous)| ,(Sh)|.(Alt)|/(Ctr)| RClick |
  * `----------------------+------+------+-------+------+------|  |------+------+------+-------+------+----------------------'
- *                        |Copy  | Paste| Cut   |BSpace| Esc  |  | Enter| Space| Del  | Left  | Right|
+ *                        |Copy  | Paste| Cut   |BSPC  | Esc  |  | Enter| Space| Del  | Left  | Right|
  *                        |      |      |       |      |      |  |      |(Sym) |      |       |      |
  *                        `-----------------------------------'  `-----------------------------------'
  */
     [_PRIMARY2] = LAYOUT(
      KC_PC_UNDO, KC_Q        ,LGUI_T(KC_W), KC_F        , KC_P, KC_G,                                        KC_J,   KC_L      ,  KC_U          ,   KC_Y       ,KC_SCLN           , KC_PC_REDO,
      KC_TAB    , LSFT_T(KC_A),LBRACK(KC_R), LMOV(KC_S)  , LNUM(KC_T), KC_D      ,                                         KC_H,   KC_N      ,  KC_E          ,   KC_I       ,RSFT_T(KC_O)      , CTL_QUOT,
-     LDIAL_CLK , LCTL_T(KC_Z),LALT_T(KC_X), LSFT_T(KC_C), LFUN(KC_V), KC_B      ,KC_MISSING,KC_MISSING,KC_MISSING, KC_MISSING, KC_K,LMOUSE(KC_M) ,RSFT_T(KC_COMMA),RALT_T(KC_DOT), RCTL_T(KC_BSLASH), RDIAL_CLK,
-                                            KC_PC_COPY  ,KC_PC_PASTE,KC_PC_CUT  ,KC_BSPACE ,KC_ESCAPE ,KC_ENTER  , LSYM(KC_SPACE),KC_DELETE, KC_LEFT, KC_RIGHT
+     LDIAL_CLK , LCTL_T(KC_Z),LALT_T(KC_X), LSFT_T(KC_C), LFUN(KC_V), KC_B      ,KC_MISS,KC_MISS,KC_MISS, KC_MISS, KC_K,LMOUSE(KC_M) ,RSFT_T(KC_COMMA),RALT_T(KC_DOT), RCTL_T(KC_BSLS  ), RDIAL_CLK,
+                                            KC_PC_COPY  ,KC_PC_PASTE,KC_PC_CUT  ,KC_BSPC   ,KC_ESCAPE ,KC_ENTER  , LSYM(KC_SPACE),KC_DELETE, KC_LEFT, KC_RIGHT
     ),
 
 /*
@@ -244,7 +245,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |        |  @   |  *   |  !   |  "   |  $   |                              |   #  |  =   |  _   |  :   |      |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * | Click  | LCtrl|\(alt)|  ^   |  |   |  `   |      |      |  |      |      |   ]  |  _   |  ,   |  .   |  /   | Click  |
+ * | Click  | LCTL |\(alt)|  ^   |  |   |  `   |      |      |  |      |      |   ]  |  _   |  ,   |  .   |  /   | Click  |
  * `----------------------+------+------+------+      |      |  |      |      |------+------+------+----------------------'
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
@@ -252,7 +253,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_MOUSE] = LAYOUT(
       _______,  KC_NO,         _______, KC_MS_UP,       KC_MS_WH_UP,         _______,                                                  _______, KC_NO,          KC_AUDIO_MUTE,  KC_AUDIO_VOL_DOWN,KC_AUDIO_VOL_UP,_______,
       _______,  KC_MS_WH_LEFT,  KC_MS_LEFT,     KC_MS_DOWN,     KC_MS_RIGHT,    KC_MS_WH_RIGHT,                                       _______, KC_MEDIA_REWIND,KC_MEDIA_PLAY_PAUSE,KC_MEDIA_STOP,  KC_MEDIA_FAST_FORWARD,KC_MEDIA_PLAY_PAUSE,
-      LDIAL_CLK,_______, _______, _______, KC_MS_WH_DOWN,  _______,   KC_MISSING, KC_MISSING, KC_MISSING, KC_MISSING, _______, _______, KC_MEDIA_PREV_TRACK,KC_MEDIA_NEXT_TRACK, _______, RDIAL_CLK,
+      LDIAL_CLK,_______, _______, _______, KC_MS_WH_DOWN,  _______,   KC_MISS, KC_MISS, KC_MISS, KC_MISS, _______, _______, KC_MEDIA_PREV_TRACK,KC_MEDIA_NEXT_TRACK, _______, RDIAL_CLK,
                                                _______, _______, KC_MS_BTN3,  KC_MS_BTN1,     KC_MS_BTN2, _______, _______,   _______,      KC_AUDIO_VOL_DOWN,KC_AUDIO_MUTE
     ),
 
@@ -265,15 +266,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                                               |------+------+------+------+------+--------|
  * |   G    |LShft |  A   |  S   |  D   |  F   |                                               |      |  4   |  5   |  6   |      |        |
  * |--------+------+------+------+------+------+                                               +------+------+------+------+------+--------|
- * | Click  | LCtrl|  Z   |  X   |  C   |  V   |                                               |   B  |  1   |  2   |  3   |      | Click  |
+ * | Click  | LCTL |  Z   |  X   |  C   |  V   |                                               |   B  |  1   |  2   |  3   |      | Click  |
  * `----------------------+------+------+------+------+------|                   |------+------+------+------+------+----------------------'
  *                        |   M  |  I   |  Alt |  Spc |  Esc |                   |      |      |      |  0   |      |
  *                        `----------------------------------'                   `----------------------------------'
  */
     [_GAMES] = LAYOUT(
       KC_T     ,  KC_TAB   , KC_Q, KC_W, KC_E, KC_R,                                                     _______,  KC_7, KC_8, KC_9, _______, _______,
-      KC_G     ,  KC_LSHIFT, KC_A, KC_S, KC_D, KC_F,                                                     _______,  KC_4, KC_5, KC_6, _______, _______,
-      LDIAL_CLK,KC_LCTRL   , KC_Z, KC_X, KC_C, KC_V, KC_MISSING, KC_MISSING    , KC_MISSING, KC_MISSING, KC_B   ,  KC_1, KC_2, KC_3, _______, RDIAL_CLK,
+      KC_G     ,  KC_LSFT, KC_A, KC_S, KC_D, KC_F,                                                     _______,  KC_4, KC_5, KC_6, _______, _______,
+      LDIAL_CLK,KC_LCTL    , KC_Z, KC_X, KC_C, KC_V, KC_MISS, KC_MISS    , KC_MISS, KC_MISS, KC_B   ,  KC_1, KC_2, KC_3, _______, RDIAL_CLK,
                                   KC_M, KC_I, KC_LALT, KC_SPACE, KC_ESCAPE     , _______   , _______   , _______,  KC_0, _______
     ),    
 
@@ -285,7 +286,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |        |  @   |  *   |  !   |  "   |  $   |                              |   #  |  =   |  _   |  :   |      |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * | Click  | LCtrl|\(alt)|  ^   |  |   |  `   |      |      |  |      |      |   ]  |  _   |  ,   |  .   |  /   | Click  |
+ * | Click  | LCTL |\(alt)|  ^   |  |   |  `   |      |      |  |      |      |   ]  |  _   |  ,   |  .   |  /   | Click  |
  * `----------------------+------+------+------+      |      |  |      |      |------+------+------+----------------------'
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
@@ -293,14 +294,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_PASS] = LAYOUT(
       _______  , KC_1        , KC_2,    KC_R,    KC_0,    KC_T,                                                    KC_U   , KC_O   , KC_7   , KC_6   , _______     , _______  ,
       _______  , LSFT_T(KC_Q), KC_4,    KC_W,    KC_5,    KC_E,                                                    KC_Y   , KC_H   , KC_3   , KC_8   , RSFT_T(KC_9), _______  ,
-      LDIAL_CLK,KC_A         , KC_S,    KC_D,    KC_F,    KC_G   , KC_MISSING, KC_MISSING, KC_MISSING, KC_MISSING, KC_I   , KC_J   , _______, _______, _______     , RDIAL_CLK,
+      LDIAL_CLK,KC_A         , KC_S,    KC_D,    KC_F,    KC_G   , KC_MISS, KC_MISS, KC_MISS, KC_MISS, KC_I   , KC_J   , _______, _______, _______     , RDIAL_CLK,
                                _______, _______, _______, _______, _______   , _______   , _______   , _______   , _______, _______
     ),
 
     [_NUMPAD] = LAYOUT(
-      KC_NUMLOCK,  KC_NO,          KC_LGUI,        KC_NO,          KC_NO,          TODEFAULT,                   KC_KP_SLASH,    KC_KP_7,           KC_KP_8,           KC_KP_9,           KC_KP_ASTERISK, TO(_PASS),
-      _______,  KC_LCTRL,       KC_LALT,        KC_LSHIFT,      KC_TRANSPARENT, KC_NO,                          KC_KP_DOT,      KC_KP_4,           KC_KP_5,           KC_KP_6,           KC_KP_PLUS,     KC_BSPACE,
-      LDIAL_CLK,KC_LCTRL  , LALT_T(KC_BSLASH), KC_CIRC, KC_PIPE, KC_GRAVE,  KC_MISSING, KC_MISSING, KC_MISSING, KC_MISSING, KC_KP_COMMA,       KC_KP_1,           KC_KP_2,           KC_KP_3, _______, RDIAL_CLK,
+      KC_NUM_LOCK,  KC_NO,          KC_LGUI,        KC_NO,          KC_NO,          TODEFAULT,                   KC_KP_SLASH,    KC_KP_7,           KC_KP_8,           KC_KP_9,           KC_KP_ASTERISK, TO(_PASS),
+      _______,  KC_LCTL ,       KC_LALT,        KC_LSFT,      _______, KC_NO,                          KC_KP_DOT,      KC_KP_4,           KC_KP_5,           KC_KP_6,           KC_KP_PLUS,     KC_BSPC  ,
+      LDIAL_CLK,KC_LCTL   , LALT_T(KC_BSLS  ), KC_CIRC, KC_PIPE, KC_GRAVE,  KC_MISS, KC_MISS, KC_MISS, KC_MISS, KC_KP_COMMA,       KC_KP_1,           KC_KP_2,           KC_KP_3, _______, RDIAL_CLK,
                                                _______, _______, _______,  _______, _______, _______, _______,   _______,     KC_KP_0,      KC_KP_MINUS 
     ),
 
@@ -312,7 +313,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |        |  @   |  *   |  !   |  "   |  $   |                              |   #  |  =   |  _   |  :   |      |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * | Click  | LCtrl|\(alt)|  ^   |  |   |  `   |      |      |  |      |      |   ]  |  _   |  ,   |  .   |  /   | Click  |
+ * | Click  | LCTL |\(alt)|  ^   |  |   |  `   |      |      |  |      |      |   ]  |  _   |  ,   |  .   |  /   | Click  |
  * `----------------------+------+------+------+      |      |  |      |      |------+------+------+----------------------'
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
@@ -320,7 +321,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // [_GOTO] = LAYOUT(
     //   _______,  _______, _______, _______, _______,   TODEFAULT,                                             _______,  _______, _______, _______, _______, _______,
     //   _______,  _______, _______, _______, _______, _______,                                                 _______,  _______, _______, _______, _______, _______,
-    //   LDIAL_CLK,_______, _______, _______, _______, _______, KC_MISSING, KC_MISSING, KC_MISSING, KC_MISSING, _______,  _______, _______, _______, _______, RDIAL_CLK,
+    //   LDIAL_CLK,_______, _______, _______, _______, _______, KC_MISS, KC_MISS, KC_MISS, KC_MISS, _______,  _______, _______, _______, _______, RDIAL_CLK,
     //                               _______, _______, _______, _______   , _______   , _______   , _______   , _______,  _______, _______
     // ),
 
@@ -332,7 +333,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |Ctrl/Esc|   A  |   S  |   D  |   F  |   G  |                              |   H  |   J  |   K  |   L  | ;  : |Ctrl/' "|
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * | LShift |   Z  |   X  |   C  |   V  |   B  | [ {  |CapsLk|  |F-keys|  ] } |   N  |   M  | ,  < | . >  | /  ? | RShift |
+ * | LSFT |   Z  |   X  |   C  |   V  |   B  | [ {  |CapsLk|  |F-keys|  ] } |   N  |   M  | ,  < | . >  | /  ? | RShift |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
  *                        |Adjust| LGUI | LAlt/| Space| Nav  |  | Sym  | Space| AltGr| RGUI | Menu |
  *                        |      |      | Enter|      |      |  |      |      |      |      |      |
@@ -341,8 +342,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // [_QWERTY] = LAYOUT(
     //  KC_TAB  , KC_Q ,  KC_W   ,  KC_E  ,   KC_R ,   KC_T ,                                             KC_Y,   KC_U ,  KC_I ,   KC_O ,  KC_P , KC_BSPC,
     //  CTL_ESC , KC_A ,  KC_S   ,  KC_D  ,   KC_F ,   KC_G ,                                             KC_H,   KC_J ,  KC_K ,   KC_L ,KC_SCLN,CTL_QUOT,
-    //  KC_LSFT , KC_Z ,  KC_X   ,  KC_C  ,   KC_V ,   KC_B , KC_MISSING,KC_MISSING,KC_MISSING,KC_MISSING,KC_N,   KC_M ,KC_COMM, KC_DOT ,KC_SLSH, KC_RSFT,
-    //                             TO(0)  , KC_LGUI, ALT_ENT, KC_BSPACE ,KC_ESC    ,KC_ENTER  ,KC_SPC    ,KC_RALT, KC_RGUI, KC_APP
+    //  KC_LSFT , KC_Z ,  KC_X   ,  KC_C  ,   KC_V ,   KC_B , KC_MISS,KC_MISS,KC_MISS,KC_MISS,KC_N,   KC_M ,KC_COMM, KC_DOT ,KC_SLSH, KC_RSFT,
+    //                             TO(0)  , KC_LGUI, ALT_ENT, KC_BSPC   ,KC_ESC    ,KC_ENTER  ,KC_SPC    ,KC_RALT, KC_RGUI, KC_APP
     // ),
 /*
  * Apps Layer
@@ -352,7 +353,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |        |  @   |  *   |  !   |  "   |  $   |                              |   #  |  =   |  _   |  :   |      |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * | Click  | LCtrl|\(alt)|  ^   |  |   |  `   |      |      |  |      |      |   ]  |  _   |  ,   |  .   |  /   | Click  |
+ * | Click  | LCTL |\(alt)|  ^   |  |   |  `   |      |      |  |      |      |   ]  |  _   |  ,   |  .   |  /   | Click  |
  * `----------------------+------+------+------+      |      |  |      |      |------+------+------+----------------------'
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
@@ -360,7 +361,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // [_APPS] = LAYOUT(
     //   _______,  _______, _______, _______, _______,   TODEFAULT,                                             _______,  _______, _______, _______, _______, _______,
     //   _______,  _______, _______, _______, _______, _______,                                                 _______,  _______, _______, _______, _______, _______,
-    //   LDIAL_CLK,_______, _______, _______, _______, _______, KC_MISSING, KC_MISSING, KC_MISSING, KC_MISSING, _______,  _______, _______, _______, _______, RDIAL_CLK,
+    //   LDIAL_CLK,_______, _______, _______, _______, _______, KC_MISS, KC_MISS, KC_MISS, KC_MISS, _______,  _______, _______, _______, _______, RDIAL_CLK,
     //                               _______, _______, _______, _______   , _______   , _______   , _______   , _______,  _______, _______
     // ),    
 };
@@ -386,7 +387,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) { return OLED_ROTATION_180; }
 
-void oled_task_user(void) {
+bool oled_task_user(void) {
     if (is_keyboard_master()) {
         // QMK Logo and version information
         // clang-format off
@@ -456,6 +457,7 @@ void oled_task_user(void) {
         // // clang-format on
         // oled_write_raw_P(kyria_logo, sizeof(kyria_logo));
     }
+    return false;
 }
 #endif
 
@@ -499,7 +501,7 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 }
 #endif
 
-const rgblight_segment_t PROGMEM my_capslock_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+const rgblight_segment_t PROGMEM my_CAPS_LOCK_layer[] = RGBLIGHT_LAYER_SEGMENTS(
     {6, 4, HSV_RED},       // Light 4 LEDs, starting with LED 6
     {12, 4, HSV_RED}       // Light 4 LEDs, starting with LED 12
 );
@@ -518,7 +520,7 @@ const rgblight_segment_t PROGMEM my_layer3_layer[] = RGBLIGHT_LAYER_SEGMENTS(
 
 // Now define the array of layers. Later layers take precedence
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
-    my_capslock_layer,
+    my_CAPS_LOCK_layer,
     my_layer1_layer,    // Overrides caps lock layer
     my_layer2_layer,    // Overrides other layers
     my_layer3_layer     // Overrides other layers

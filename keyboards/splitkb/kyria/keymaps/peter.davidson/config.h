@@ -26,7 +26,8 @@
 #define RGBLIGHT_LAYERS
 // Lets you roll mod-tap keys
 #define IGNORE_MOD_TAP_INTERRUPT
-#define ENCODER_RESOLUTIONS { 2, 1 }
+//#define ENCODER_RESOLUTIONS { 2, 1 }
+#define ENCODER_RESOLUTION 2
 // If you are using an Elite C rev3 on the slave side, uncomment the lines below:
 // #define SPLIT_USB_DETECT
 // #define NO_USB_STARTUP_CHECK
