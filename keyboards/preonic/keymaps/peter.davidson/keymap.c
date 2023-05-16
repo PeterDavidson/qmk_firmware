@@ -102,39 +102,57 @@ enum preonic_keycodes {
  * `-----------------------------------------------------------------------------------'
  */
 [_COLEMAK] = LAYOUT_preonic_grid(
-  KC_ESC, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_DEL, 
-  KC_NO, KC_Q, LGUI_T(KC_W), KC_F, LNUMPAD(KC_P), LLAYER(KC_G), KC_J, KC_L, KC_U, KC_Y, KC_SCLN, TO(_LAYERCHG), 
-  KC_TAB, LSFT_T(KC_A), LBRACK(KC_R), LMOV(KC_S), LNUM(KC_T), KC_D, KC_H, KC_N, KC_E, KC_I, RSFT_T(KC_O), KC_QUOT, 
-  KC_LSFT, LCTL_T(KC_Z), LALT_T(KC_X), LSFT_T(KC_C), LFUN(KC_V), KC_B, KC_K, LMOUSE(KC_M), RSFT_T(KC_COMM), RALT_T(KC_DOT), RCTL_T(KC_UP), KC_RSFT, 
-  KC_LGUI, KC_PC_COPY  ,KC_PC_PASTE   ,KC_PC_CUT, LSFT_T(KC_BSPC), KC_ESC, KC_ENT, LSYM(KC_SPC), KC_DEL, KC_LEFT, KC_DOWN, KC_RGHT),
+  KC_ESC,  KC_1,         KC_2,          KC_3,         KC_4,            KC_5,         KC_6,   KC_7,         KC_8,            KC_9,           KC_0,          KC_DEL, 
+  KC_NO,   KC_Q,         LGUI_T(KC_W),  KC_F,         LNUMPAD(KC_P),   LLAYER(KC_G), KC_J,   KC_L,         KC_U,            KC_Y,           KC_SCLN,       TO(_LAYERCHG), 
+  KC_TAB,  LSFT_T(KC_A), LBRACK(KC_R),  LMOV(KC_S),   LNUM(KC_T),      KC_D,         KC_H,   KC_N,         KC_E,            KC_I,           RSFT_T(KC_O),  KC_QUOT, 
+  KC_LSFT, LCTL_T(KC_Z), LALT_T(KC_X),  LSFT_T(KC_C), LFUN(KC_V),      KC_B,         KC_K,   LMOUSE(KC_M), RSFT_T(KC_COMM), RALT_T(KC_DOT), RCTL_T(KC_UP), KC_RSFT, 
+  KC_LGUI, KC_PC_COPY    ,KC_PC_PASTE   ,KC_PC_CUT,   LSFT_T(KC_BSPC), KC_ESC,       KC_ENT, LSYM(KC_SPC), KC_DEL,          KC_LEFT,        KC_DOWN,       KC_RGHT
+),
 
+/* Symbols
+ * ,-----------------------------------------------------------------------------------.
+ * |  Esc |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  | Bksp |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * | Tab  |NumLck|   ?  |   /  |   %  | (Def)| Caps |   ~  |   +  |   &  |      | Del  |
+ * |------+------+------+------+------+-------------+------+------+------+------+------|
+ * |      |   @  |   *  |   !  |   "  |   $  |   #  |   ;  |   =  |   _  |   :  |      |
+ * |------+------+------+------+------+------|------+------+------+------+------+------|
+ * |      | LCtr |\(alt)|   ^  |   |  |   `  | spc  |   -  |   '  |   <  |  >   |      |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * | Brite| Ctrl | Alt  | GUI  |Lower |    Space    |Raise | Left | Down |  Up  |Right |
+ * `-----------------------------------------------------------------------------------'
+ */
 [_SYMBOLS] = LAYOUT_preonic_grid(
-  KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, 
-  KC_NO, KC_NUM, KC_QUES, KC_SLSH, KC_PERC, TODEFAULT, KC_CAPS, KC_TILD, KC_PLUS, KC_AMPR, KC_NO, KC_TRNS, 
-  KC_NO, KC_AT, KC_ASTR, KC_EXLM, KC_DQUO, KC_DLR, KC_HASH, KC_SCLN, KC_EQL, KC_UNDS, KC_COLN, KC_DQUO, 
-  KC_NO, KC_LCTL, LALT_T(KC_BSLS), KC_CIRC, KC_PIPE, KC_GRV, KC_SPC, KC_TRNS, KC_QUOT, KC_COLN, KC_LT, KC_GT, 
-  KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS),
+  KC_TRNS, KC_TRNS, KC_TRNS        , KC_TRNS, KC_TRNS, KC_TRNS  , KC_TRNS, KC_TRNS , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, 
+  KC_NO  , KC_NUM , KC_QUES        , KC_SLSH, KC_PERC, TODEFAULT, KC_CAPS, KC_TILD , KC_PLUS, KC_AMPR, KC_NO  , KC_TRNS, 
+  KC_NO  , KC_AT  , KC_ASTR        , KC_EXLM, KC_DQUO, KC_DLR   , KC_HASH, KC_SCLN , KC_EQL , KC_UNDS, KC_COLN, KC_TRNS, 
+  KC_NO  , KC_LCTL, LALT_T(KC_BSLS), KC_CIRC, KC_PIPE, KC_GRV   , KC_SPC , KC_MINUS, KC_QUOT, KC_LABK, KC_RABK, KC_TRNS, 
+  KC_NO  , KC_NO  , KC_NO          , KC_NO  , KC_NO  , KC_NO    , KC_NO  , KC_NO   , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+),
 
 [_NUMBERS] = LAYOUT_preonic_grid(
-  KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, 
-  KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, TODEFAULT, KC_PAST,             KC_7, KC_8, KC_9, KC_PPLS, TO(_PASS), 
-  KC_NO, KC_LCTL, KC_LALT, KC_LSFT, KC_NO, KC_NO, KC_PDOT,           KC_4, KC_5, KC_6, KC_PMNS, KC_BSPC, 
-  KC_NO, KC_LCTL, LALT_T(KC_BSLS), KC_LCTL, KC_NO, KC_NO, KC_PCMM, KC_1, KC_2, KC_3, KC_UP, KC_NO, 
-  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_0, KC_LEFT, KC_DOWN, KC_RGHT),
+  KC_NO,   KC_NO,   KC_NO,           KC_NO,   KC_NO,   KC_NO,     KC_NO,               KC_NO,   KC_NO, KC_NO,   KC_NO,   KC_NO, 
+  KC_NO,   KC_NO,   KC_NO,           KC_NO,   KC_NO,   TODEFAULT, KC_PAST,             KC_7,    KC_8,  KC_9,    KC_PPLS, TO(_PASS), 
+  KC_NO,   KC_LCTL, KC_LALT,         KC_LSFT, KC_NO,   KC_NO,     KC_PDOT,             KC_4,    KC_5,  KC_6,    KC_PMNS, KC_BSPC, 
+  KC_NO,   KC_LCTL, LALT_T(KC_BSLS), KC_LCTL, KC_NO,   KC_NO,     KC_PCMM,             KC_1,    KC_2,  KC_3,    KC_UP,   KC_NO, 
+  KC_TRNS, KC_TRNS, KC_TRNS,         KC_TRNS, KC_TRNS, KC_TRNS,   KC_TRNS,             KC_TRNS, KC_0,  KC_LEFT, KC_DOWN, KC_RGHT
+),
 
 [_NUMPAD] = LAYOUT_preonic_grid(
-  KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, 
-  KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, TODEFAULT, KC_PAST, KC_P7, KC_P8, KC_P9, KC_PPLS, TO(_PASS), 
-  KC_NO, KC_LCTL, KC_LALT, KC_LSFT, KC_NO, KC_NO, KC_PDOT, KC_P4, KC_P5, KC_P6, KC_PMNS, KC_BSPC, 
-  KC_NO, KC_LCTL, LALT_T(KC_BSLS), KC_LCTL, KC_NO, KC_NO, KC_PCMM, KC_P1, KC_P2, KC_P3, KC_UP, KC_NO, 
-  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_P0, KC_LEFT, KC_DOWN, KC_RGHT),
+  KC_NO,   KC_NO,   KC_NO,           KC_NO,   KC_NO,   KC_NO,     KC_NO,   KC_NO,   KC_NO, KC_NO,   KC_NO,   KC_NO, 
+  KC_NO,   KC_NO,   KC_NO,           KC_NO,   KC_NO,   TODEFAULT, KC_PAST, KC_P7,   KC_P8, KC_P9,   KC_PPLS, TO(_PASS), 
+  KC_NO,   KC_LCTL, KC_LALT,         KC_LSFT, KC_NO,   KC_NO,     KC_PDOT, KC_P4,   KC_P5, KC_P6,   KC_PMNS, KC_BSPC, 
+  KC_NO,   KC_LCTL, LALT_T(KC_BSLS), KC_LCTL, KC_NO,   KC_NO,     KC_PCMM, KC_P1,   KC_P2, KC_P3,   KC_UP,   KC_NO, 
+  KC_TRNS, KC_TRNS, KC_TRNS,         KC_TRNS, KC_TRNS, KC_TRNS,   KC_TRNS, KC_TRNS, KC_P0, KC_LEFT, KC_DOWN, KC_RGHT
+),
 
 [_MOVEMENT] = LAYOUT_preonic_grid(
-  KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, 
-  KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, TODEFAULT, LCTL(KC_HOME), KC_HOME, KC_UP, KC_PGUP, KC_INS, KC_NO, 
-  KC_NO, KC_LCTL, KC_LALT, KC_NO, KC_LSFT, KC_NO, LCTL(KC_LEFT), KC_LEFT, KC_DOWN, KC_RGHT, LCTL(KC_RGHT), KC_NO, 
-  KC_NO, KC_NO, KC_NO, KC_NO, KC_LCTL, KC_NO, LCTL(KC_END), KC_END, KC_TAB, KC_TRNS, KC_SCRL, KC_NO, 
-  KC_NO, KC_NO, KC_NO, KC_NO, KC_PC_UNDO, KC_PC_REDO, KC_PC_COPY, KC_PC_PASTE,   KC_DELETE,      KC_INSERT   , KC_WWW_BACK, KC_NO),
+  KC_NO, KC_NO,   KC_NO,   KC_NO, KC_NO,      KC_NO,      KC_NO,         KC_NO,         KC_NO,          KC_NO,      KC_NO,         KC_NO, 
+  KC_NO, KC_NO,   KC_NO,   KC_NO, KC_NO,      TODEFAULT,  LCTL(KC_HOME), KC_HOME,       KC_UP,          KC_PGUP,    KC_INS,        KC_NO, 
+  KC_NO, KC_LCTL, KC_LALT, KC_NO, KC_LSFT,    KC_NO,      LCTL(KC_LEFT), KC_LEFT,       KC_DOWN,        KC_RGHT,    LCTL(KC_RGHT), KC_NO, 
+  KC_NO, KC_NO,   KC_NO,   KC_NO, KC_LCTL,    KC_NO,      LCTL(KC_END),  KC_END,        KC_TAB,         KC_PGDN,    KC_SCRL,       KC_NO, 
+  KC_NO, KC_NO,   KC_NO,   KC_NO, KC_PC_UNDO, KC_PC_REDO, KC_PC_COPY,    KC_PC_PASTE,   KC_DELETE,      KC_INSERT,  KC_WWW_BACK, KC_NO
+),
 
 [_BRACKETS] = LAYOUT_preonic_grid(
   KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, 
