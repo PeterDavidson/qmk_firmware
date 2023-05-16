@@ -13,6 +13,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+ // \\wsl$\Ubuntu\home\peter\qmk_firmware\.build\
+ // Atmega32u4
 #include QMK_KEYBOARD_H
 #define NUMLAYERS 11
 enum layers {
@@ -119,7 +122,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-------------------------------------------.                              ,-------------------------------------------.
  * |        |NumLck|  ?   |  /   |  %   |(TO0) |                              |CapLck|  ~   |  +   |  &   |      |        |
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |        |  @   |  *   |  !   |  "   |  $   |                              |   #  |  =   |  _   |  :   |      |        |
+ * |        |  @   |  *   |  !   |  "   |  $   |                              |   #  |   ;  |  =   |  _   |  :   |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
  * | Click  | LCTL |\(alt)|  ^   |  |   |  `   |      |      |  |      |      |   ]  |  _   |  ,   |  .   |  /   | Click  |
  * `----------------------+------+------+------+      |      |  |      |      |------+------+------+----------------------'
