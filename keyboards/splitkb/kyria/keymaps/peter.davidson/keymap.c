@@ -14,10 +14,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+ /*
  // \\wsl$\Ubuntu\home\peter\qmk_firmware\.build\
  // Atmega32u4
+*/
+
 #include QMK_KEYBOARD_H
-#define NUMLAYERS 11
+#define NUMLAYERS 12
 enum layers {
     _COLEMAK=0,
     _GAMES,
@@ -30,6 +33,7 @@ enum layers {
     _PRIMARY2,
     _MOUSE,
     _PASS,
+    _MOVEMENT2
     //_GOTO,
     // _QWERTY,
     //_APPS
@@ -46,12 +50,13 @@ const char string_7[] PROGMEM = "Bracket";
 const char string_8[] PROGMEM = "Prim2";
 const char string_9[] PROGMEM = "Mouse";
 const char string_10[] PROGMEM = "Pass";
+const char string_11[] PROGMEM = "Move2";
 //const char string_10[] PROGMEM = "Goto";
 //const char string_11[] PROGMEM = "QWERTY";
 //const char string_12[] PROGMEM = "App";
 const char* const layerNames[] PROGMEM   = {
     string_0,string_1,string_2,string_3,string_4,string_5,string_6,
-    string_7, string_8, string_9, string_10};
+    string_7, string_8, string_9, string_10, string_11};
 
 // Aliases for readability
 // #define COLEMAK  DF(_COLEMAK)
@@ -64,6 +69,7 @@ const char* const layerNames[] PROGMEM   = {
 
 #define LSYM(kc) LT(_SYMBOLS,kc)
 #define LNUM(kc) LT(_NUMBERS,kc)
+#define LMOV2(kc) LT(_MOVEMENT2,kc)
 #define LMOV(kc) LT(_MOVEMENT,kc)
 #define LBRACK(kc) LT(_BRACKETS,kc)
 #define LFUN(kc) LT(_FUNCTION,kc)
@@ -99,20 +105,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * Base Layer: Colemak
  *
  * ,-------------------------------------------.                              ,--------------------------------------------.
- * |  Undo  |   Q  |W(win)|   F  |P(app)|G(goto)|                              |   J  |   L   |   U  |   Y  | ;  : |  REDO  |
+ * |  Undo  |   Q  |W(win)|F(Mv2)|P(app)|G(goto)|                              |   J  |   L   |   U  |   Y  | ;  : |  REDO  |
  * |--------+------+------+------+------+-------|                              |------+-------+------+------+------+--------|
- * |  Tab   |A(lsh)|R(brk)|S(mov)|T(num)|   D   |                              |   H  |   N   |   E  |   I  |O(Rsh)|Ctrl/' "|
+ * |  Tab   |A(shf)|R(Brk)|S(Mov)|T(Num)|   D   |                              |   H  |   N   |   E  |   I  |O(shf)|Ctrl/' "|
  * |--------+------+------+------+------+-------+-------------.  ,-------------+------+-------+------+------+------+--------|
- * | LClick |   Z  |   X  |   C  |   V  |   B   |      |      |  |      |      |   K  |M(mous)| ,(Sh)|.(Alt)|/(Ctr)| RClick |
- * `----------------------+------+------+-------+------+------|  |------+------+------+-------+------+----------------------'
- *                        |Copy  | Paste| Cut   |BSPC  | Esc  |  | Enter| Space| Del  | Left  | Right|
- *                        |      |      |       |      |      |  |      |(Sym) |      |       |      |
+ * | LClick |Z(ctl)|X(alt)|C(shf)|V(Fun)|   B   |      |      |  |      |      |   K  |M(Mous)|,(shf)|.(alt)|/(ctr)| RClick |
+ * `----------------------+------+------+-------+ BSPC | Esc  |  | Enter|Space +------+-------+------+----------------------'
+ *                        | Copy | Paste|  Cut  |      |      |  |      |(Sym) | Del  | Left  | Right|
  *                        `-----------------------------------'  `-----------------------------------'
  */
     [_COLEMAK] = LAYOUT(
-     KC_PC_UNDO, KC_Q        ,LGUI_T(KC_W), KC_F        , LNUMPAD(KC_P), KC_G,                                                  KC_J     , KC_L       , KC_U           , KC_Y         ,KC_SCLN        , KC_UP,
+     KC_PC_UNDO, KC_Q        ,LGUI_T(KC_W), LMOV2(KC_F) , LNUMPAD(KC_P), KC_G,                                                  KC_J     , KC_L       , KC_U           , KC_Y         ,KC_SCLN        , KC_UP,
      KC_TAB    , LSFT_T(KC_A),LBRACK(KC_R), LMOV(KC_S)  , LNUM(KC_T)   , KC_D,                                                  KC_H     , KC_N       , KC_E           , KC_I         ,RSFT_T(KC_O)   , KC_DOWN,
-     LDIAL_CLK , LCTL_T(KC_Z),LALT_T(KC_X), LSFT_T(KC_C), LFUN(KC_V)   , KC_B      ,KC_MISS, KC_MISS , KC_MISS, KC_MISS        ,KC_K     ,LMOUSE(KC_M),RSFT_T(KC_COMMA),RALT_T(KC_DOT),RCTL_T(KC_BSLS), RDIAL_CLK,
+     LDIAL_CLK , LCTL_T(KC_Z),LALT_T(KC_X), LSFT_T(KC_C), LFUN(KC_V)   , KC_B      ,_______, _______ , _______, _______        ,KC_K     ,LMOUSE(KC_M),RSFT_T(KC_COMMA),RALT_T(KC_DOT),RCTL_T(KC_BSLS), RDIAL_CLK,
                                             KC_PC_COPY  ,KC_PC_PASTE   ,KC_PC_CUT  ,KC_BSPC,KC_ESCAPE,KC_ENTER, LSYM(KC_SPACE) ,KC_DELETE,KC_LEFT     , KC_RIGHT
     ),
 
@@ -132,7 +137,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_SYMBOLS] = LAYOUT(
       _______,  KC_NUM_LOCK, KC_QUES         , KC_SLASH,KC_PERC, TODEFAULT,                                     KC_CAPS_LOCK, KC_TILD     , KC_PLUS , KC_AMPR, XXXXXXX, XXXXXXX,
       _______,  KC_AT     , KC_ASTR          , KC_EXLM, KC_DQUO, KC_DLR,                                        KC_HASH     , KC_SEMICOLON, KC_EQUAL, KC_UNDS, KC_COLN, KC_DQUO,
-      LDIAL_CLK,KC_LCTL   , LALT_T(KC_BSLS  ), KC_CIRC, KC_PIPE, KC_GRAVE,  KC_MISS, KC_MISS, KC_MISS, KC_MISS, KC_SPACE    , KC_MINUS    , KC_QUOTE, KC_LABK, KC_RABK, RDIAL_CLK,
+      LDIAL_CLK,KC_LCTL   , LALT_T(KC_BSLS  ), KC_CIRC, KC_PIPE, KC_GRAVE,  _______, _______, _______, _______, KC_SPACE    , KC_MINUS    , KC_QUOTE, KC_LABK, KC_RABK, RDIAL_CLK,
                                                _______, _______, _______,  _______, _______, _______, _______,  _______     , _______     , _______
     ),
 
@@ -150,50 +155,50 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        `----------------------------------'  `----------------------------------'
  */
     [_NUMBERS] = LAYOUT(
-      KC_NUM_LOCK, KC_NO   , KC_LGUI        , KC_NO  , KC_NO  , TODEFAULT,                                     KC_KP_SLASH, KC_7,           KC_8,           KC_9,           KC_KP_ASTERISK, TO(_PASS),
-      _______    , KC_LCTL , KC_LALT        , KC_LSFT, _______, KC_NO    ,                                     KC_DOT,      KC_4,           KC_5,           KC_6,           KC_KP_PLUS,     KC_BSPC  ,
-      LDIAL_CLK  , KC_LCTL , LALT_T(KC_BSLS), KC_CIRC, KC_PIPE, KC_GRAVE , KC_MISS, KC_MISS, KC_MISS, KC_MISS, KC_COMMA,       KC_1,           KC_2,           KC_3, _______, RDIAL_CLK,
-                                               _______, _______, _______,  _______, _______, _______, _______,   _______,     KC_0,      KC_KP_MINUS 
+      KC_NUM_LOCK, XXXXXXX , KC_LGUI        , XXXXXXX, XXXXXXX, TODEFAULT,                                     KC_KP_SLASH, KC_7, KC_8       , KC_9  , KC_KP_ASTERISK, TO(_PASS),
+      _______    , KC_LCTL , KC_LALT        , KC_LSFT, _______, XXXXXXX  ,                                     KC_DOT,      KC_4, KC_5       , KC_6  , KC_KP_PLUS    , KC_BSPC  ,
+      LDIAL_CLK  , KC_LCTL , LALT_T(KC_BSLS), KC_CIRC, KC_PIPE, KC_GRAVE , _______, _______, _______, _______, KC_COMMA,    KC_1, KC_2       , KC_3  , _______       , RDIAL_CLK,
+                                               _______, _______, _______,  _______, _______, _______, _______,   _______,   KC_0, KC_KP_MINUS 
     ),
 
 /*
  * Movement Layer
  *
- * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |      | Win  |      |      |(TO0) |                              |C-Home| Home |  Up  | PgUp |Insert| Rec-Start|
- * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |        | LCTL | LALT |      | LSHFT|      |                              |C-Left| Left | Down | Right|C-Rgt | C-`    |
- * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * | Click  |      |      |      | LCTL |  `   |      |      |  |      |      |C-End | End  | Tab  | PgDn |Scrl-Lck | Click  |
- * `----------------------+------+------+------+ Undo | Redo |  | Copy | Paste|------+------+------+----------------------'
+ * ,-------------------------------------------.                              ,-----------------------------------------------.
+ * |        |      | Win  |      |      |(TO0) |                              |C-Home| Home |  Up  | PgUp |Insert   |Rec-Start|
+ * |--------+------+------+------+------+------|                              |------+------+------+------+---------+---------|
+ * |        | LCTL | LALT |      | LSHFT|      |                              |C-Left| Left | Down | Right|C-Rgt    | Ctr-`   |
+ * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+---------+---------|
+ * | Click  |      |      |      | LCTL |Ctr-` |      |      |  |      |      |C-End | End  | Tab  | PgDn |Scrl-Lck |  Click  |
+ * `----------------------+------+------+------+ Undo | Redo |  | Copy | Paste|------+------+------+--------------------------'
  *                        |      |      |      |      |      |  |      |      | Del  | Ins  | Back |
  *                        `----------------------------------'  `----------------------------------'
  */
     [_MOVEMENT] = LAYOUT(
-      _______,  KC_NO,          KC_LGUI,        KC_NO,          KC_NO,          TODEFAULT,                          LCTL(KC_HOME),  KC_HOME,        KC_UP,          KC_PGUP,        KC_INSERT, DYN_REC_START1,
-      _______,  KC_LCTL ,       KC_LALT,        _______,      KC_LSFT, KC_NO,                                       LCTL(KC_LEFT),  KC_LEFT,        KC_DOWN,        KC_RIGHT,       LCTL(KC_RIGHT), LCTL(KC_GRAVE),
-      LDIAL_CLK,KC_NO,          KC_NO,          KC_NO,          KC_LCTL ,       LCTL(KC_GRAVE),  KC_MISS, KC_MISS, KC_MISS, KC_MISS, LCTL(KC_END),   KC_END,         KC_TAB,         KC_PGDN,      KC_SCROLL_LOCK, RDIAL_CLK,
-                                               _______, _______, _______,  KC_PC_UNDO, KC_PC_REDO, KC_PC_COPY, KC_PC_PASTE,   KC_DELETE,      KC_INSERT   , KC_WWW_BACK
+      _______,  XXXXXXX , KC_LGUI, XXXXXXX, XXXXXXX , TODEFAULT     ,                                                  LCTL(KC_HOME), KC_HOME  , KC_UP      , KC_PGUP  , KC_INSERT     , _______, //DYN_REC_START1
+      _______,  KC_LCTL , KC_LALT, _______, KC_LSFT , XXXXXXX       ,                                                  LCTL(KC_LEFT), KC_LEFT  , KC_DOWN    , KC_RIGHT , LCTL(KC_RIGHT), LCTL(KC_GRAVE),
+      LDIAL_CLK,XXXXXXX , XXXXXXX, XXXXXXX, KC_LCTL , LCTL(KC_GRAVE), _______   , _______   , _______   , _______    , LCTL(KC_END) , KC_END   , KC_TAB     , KC_PGDN  , KC_SCROLL_LOCK, RDIAL_CLK     ,
+                                   _______, _______ , _______       , KC_PC_UNDO, KC_PC_REDO, KC_PC_COPY, KC_PC_PASTE, KC_DELETE    , KC_INSERT, KC_WWW_BACK
     ),
 
 /*
  * Bracket Layer
  *
- * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |NumLck|  ?   |  /   |  %   |(TO0) |                              |CapLck|  ~   |  +   |  &   |      |        |
- * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |        |  @   |  *   |  !   |  "   |  $   |                              |   #  |  =   |  _   |  :   |      |        |
- * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * | Click  | LCTL |\(alt)|  ^   |  |   |  `   |      |      |  |      |      |   ]  |  _   |  ,   |  .   |  /   | Click  |
- * `----------------------+------+------+------+      |      |  |      |      |------+------+------+----------------------'
- *                        |      |      |      |      |      |  |      |      |      |      |      |
- *                        `----------------------------------'  `----------------------------------'
+ * ,-------------------------------------------.                              ,---------------------------------------------.
+ * |        |      | win  |      |      |(TO0) |                              |       | c-`  | c-/  | a-s-A| c-s-\ |        |
+ * |--------+------+------+------+------+------|                              |-------+------+------+------+-------+--------|
+ * |        | ctrl |      |  alt | shft |      |                              | c-s-\ |  (   |  {   |  [   |  <    |        |
+ * |--------+------+------+------+------+------+-------------.  ,-------------+-------+------+------+------+-------+--------|
+ * | Click  |      |      |      |      |      |      |      |  |      |      |       |  )   |  }   |  ]   |  >    | Click  |
+ * `----------------------+------+------+------+      |      |  |      |      |-------+------+------+-----------------------'
+ *                        |      |      |      |      |      |  |      |      |       |      |      |
+ *                        `----------------------------------'  `-----------------------------------'
  */
     [_BRACKETS] = LAYOUT(
-      _______,  KC_NO,          KC_LGUI,        KC_NO,          KC_NO,          TODEFAULT,                       _______, LCTL(KC_GRAVE), LCTL(KC_SLASH), LALT(LSFT(KC_A)),LCTL(LSFT(KC_BSLS  )),_______,
-      _______,  KC_LCTL ,      _______, KC_LALT,        KC_LSFT, KC_NO,                                       LCTL(LSFT(KC_BSLS  )),KC_LPRN,        KC_LCBR,        KC_LEFT_BRACKET,    KC_LABK, _______,
-      LDIAL_CLK,KC_NO,          KC_NO,          KC_NO,          KC_NO,      KC_NO,  KC_MISS, KC_MISS, KC_MISS, KC_MISS, _______, KC_RPRN,        KC_RCBR,        KC_RIGHT_BRACKET,    KC_RABK,  RDIAL_CLK,
-                                               _______, _______, _______,  _______, _______, _______, _______,   _______,      _______   , _______
+      _______  , XXXXXXX , KC_LGUI, XXXXXXX, XXXXXXX, TODEFAULT,                                     _______              , LCTL(KC_GRAVE), LCTL(KC_SLASH), LALT(LSFT(KC_A)), LCTL(LSFT(KC_BSLS  )), _______   ,
+      _______  , KC_LCTL , _______, KC_LALT, KC_LSFT, XXXXXXX  ,                                     LCTL(LSFT(KC_BSLS  )), KC_LPRN       , KC_LCBR       , KC_LEFT_BRACKET , KC_LABK              , _______   ,
+      LDIAL_CLK, XXXXXXX , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX  ,  _______, _______, _______, _______, _______             , KC_RPRN       , KC_RCBR       , KC_RIGHT_BRACKET, KC_RABK              ,  RDIAL_CLK,
+                                    _______, _______, _______  ,  _______, _______, _______, _______, _______             , _______       , _______
     ),
 
 
@@ -202,27 +207,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * Function Layer: Function keys
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |  F9  | F10  | F11  | F12  |      |                              |      |      |      |      |      |        |
+ * |        |      |      |      |      |(TO0) |                              |      |  F7  |  F8  |  F9  |      |(QMKRST)|
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |        |  F5  |  F6  |  F7  |  F8  |      |                              |      | Shift| Ctrl |  Alt |  GUI |        |
+ * |        |      |      |      | Alt  |      |                              |      |  F4  |  F5  |  F6  |      |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |        |  F1  |  F2  |  F3  |  F4  |      |      |      |  |      |      |      |      |      |      |      |        |
- * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |      |      |      |      |      |  |      |      |      |      |      |
- *                        |      |      |      |      |      |  |      |      |      |      |      |
+ * | Click  | Ctrl | Alt  | Shft |      |      |      |      |  |      |      |      |  F1  |  F2  |  F3  |      |  Click |
+ * `----------------------+------+------+------+      |Sleep |  |      |      +------+------+------+----------------------'
+ *                        |      |      |      |      |      |  |      |      |  F10 |  F11 |  F12 |
  *                        `----------------------------------'  `----------------------------------'
  */
     [_FUNCTION] = LAYOUT(
-      _______  , KC_NO  , KC_LGUI, KC_NO  , KC_NO  , TODEFAULT,                                      _______, KC_F7,  KC_F8, KC_F9, _______, QK_REBOOT,
-      _______  , KC_NO  , KC_NO  , _______, KC_LALT, KC_NO    ,                                      _______, KC_F4,  KC_F5, KC_F6, _______, _______  ,
-      LDIAL_CLK, KC_LCTL, KC_LALT, KC_LSFT, _______, KC_NO    ,  KC_MISS, KC_MISS, KC_MISS, KC_MISS, _______, KC_F1,  KC_F2, KC_F3, _______, RDIAL_CLK,
-                                            _______, _______  , _______ , _______, KC_SLEP, _______, _______, KC_F10, KC_F11,KC_F12
+      _______  , XXXXXXX, KC_LGUI, XXXXXXX, XXXXXXX, TODEFAULT,                                      _______, KC_F7,  KC_F8, KC_F9, _______, QK_BOOT,
+      _______  , XXXXXXX, XXXXXXX, _______, KC_LALT, XXXXXXX  ,                                      _______, KC_F4,  KC_F5, KC_F6, _______, QK_REBOOT  ,
+      LDIAL_CLK, KC_LCTL, KC_LALT, KC_LSFT, _______, XXXXXXX  , _______ , _______, _______, _______, _______, KC_F1,  KC_F2, KC_F3, _______, RDIAL_CLK,
+                                   _______, _______, _______  , _______,  KC_SLEP, _______, _______, KC_F10, KC_F11,KC_F12
     ),
 
 /*
 * Primary layer v2
 *
-* ,-------------------------------------------.                              ,--------------------------------------------.
+* ,-------------------------------------------.                                ,--------------------------------------------.
  * |  Undo  |   Q  |W(win)|   F  |P(app)|G(goto)|                              |   J  |   L   |   U  |   Y  | ;  : |  REDO  |
  * |--------+------+------+------+------+-------|                              |------+-------+------+------+------+--------|
  * |  Tab   |A(lsh)|R(brk)|S(mov)|T(num)|   D   |                              |   H  |   N   |   E  |   I  |O(Rsh)|Ctrl/' "|
@@ -236,28 +240,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_PRIMARY2] = LAYOUT(
      KC_PC_UNDO, KC_Q        ,LGUI_T(KC_W), KC_F        , KC_P, KC_G,                                        KC_J,   KC_L      ,  KC_U          ,   KC_Y       ,KC_SCLN           , KC_PC_REDO,
      KC_TAB    , LSFT_T(KC_A),LBRACK(KC_R), LMOV(KC_S)  , LNUM(KC_T), KC_D      ,                                         KC_H,   KC_N      ,  KC_E          ,   KC_I       ,RSFT_T(KC_O)      , CTL_QUOT,
-     LDIAL_CLK , LCTL_T(KC_Z),LALT_T(KC_X), LSFT_T(KC_C), LFUN(KC_V), KC_B      ,KC_MISS,KC_MISS,KC_MISS, KC_MISS, KC_K,LMOUSE(KC_M) ,RSFT_T(KC_COMMA),RALT_T(KC_DOT), RCTL_T(KC_BSLS  ), RDIAL_CLK,
+     LDIAL_CLK , LCTL_T(KC_Z),LALT_T(KC_X), LSFT_T(KC_C), LFUN(KC_V), KC_B      ,_______,_______,_______, _______, KC_K,LMOUSE(KC_M) ,RSFT_T(KC_COMMA),RALT_T(KC_DOT), RCTL_T(KC_BSLS  ), RDIAL_CLK,
                                             KC_PC_COPY  ,KC_PC_PASTE,KC_PC_CUT  ,KC_BSPC   ,KC_ESCAPE ,KC_ENTER  , LSYM(KC_SPACE),KC_DELETE, KC_LEFT, KC_RIGHT
     ),
 
 /*
  * Mouse Layer
- *
+ *                   MOUSE MOVEDMENTS                                                    MEDIA
  * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |NumLck|  ?   |  /   |  %   |(TO0) |                              |CapLck|  ~   |  +   |  &   |      |        |
+ * |        |      |      | Up   |Wh-Up |      |                              |      |      | Mute | Vol- | Vol+ |        |
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |        |  @   |  *   |  !   |  "   |  $   |                              |   #  |  =   |  _   |  :   |      |        |
+ * |        |Wh-Lft| Left | Down |Right |Wh-Rgt|                              |      |Rewind| Play | Stop | FF   |  Play  |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * | Click  | LCTL |\(alt)|  ^   |  |   |  `   |      |      |  |      |      |   ]  |  _   |  ,   |  .   |  /   | Click  |
- * `----------------------+------+------+------+      |      |  |      |      |------+------+------+----------------------'
- *                        |      |      |      |      |      |  |      |      |      |      |      |
+ * |  Click |      |      |      |Wh-Dn |      |      |      |  |      |      |      |      | Prev | Next |      | Click  |
+ * `----------------------+------+------+------+ Btn1 | Btn2 |  |      |      +------+------+------+----------------------'
+ *                        |      |      | Bt3  |      |      |  |      |      |      | Vol- | Mute |
  *                        `----------------------------------'  `----------------------------------'
  */
     [_MOUSE] = LAYOUT(
-      _______,  KC_NO,         _______, KC_MS_UP,       KC_MS_WH_UP,         _______,                                                  _______, KC_NO,          KC_AUDIO_MUTE,  KC_AUDIO_VOL_DOWN,KC_AUDIO_VOL_UP,_______,
-      _______,  KC_MS_WH_LEFT,  KC_MS_LEFT,     KC_MS_DOWN,     KC_MS_RIGHT,    KC_MS_WH_RIGHT,                                       _______, KC_MEDIA_REWIND,KC_MEDIA_PLAY_PAUSE,KC_MEDIA_STOP,  KC_MEDIA_FAST_FORWARD,KC_MEDIA_PLAY_PAUSE,
-      LDIAL_CLK,_______, _______, _______, KC_MS_WH_DOWN,  _______,   KC_MISS, KC_MISS, KC_MISS, KC_MISS, _______, _______, KC_MEDIA_PREV_TRACK,KC_MEDIA_NEXT_TRACK, _______, RDIAL_CLK,
-                                               _______, _______, KC_MS_BTN3,  KC_MS_BTN1,     KC_MS_BTN2, _______, _______,   _______,      KC_AUDIO_VOL_DOWN,KC_AUDIO_MUTE
+      _______  , XXXXXXX      , _______   , KC_MS_UP  , KC_MS_WH_UP  , _______       ,                                           _______, XXXXXXX          , KC_AUDIO_MUTE       , KC_AUDIO_VOL_DOWN  , KC_AUDIO_VOL_UP      ,_______            ,
+      _______  , KC_MS_WH_LEFT, KC_MS_LEFT, KC_MS_DOWN, KC_MS_RIGHT  , KC_MS_WH_RIGHT,                                           _______, KC_MEDIA_REWIND  , KC_MEDIA_PLAY_PAUSE , KC_MEDIA_STOP      , KC_MEDIA_FAST_FORWARD,KC_MEDIA_PLAY_PAUSE,
+      LDIAL_CLK, _______      , _______   , _______   , KC_MS_WH_DOWN, _______       , _______   , _______   , _______, _______, _______, _______          , KC_MEDIA_PREV_TRACK , KC_MEDIA_NEXT_TRACK, _______              , RDIAL_CLK         ,
+                                            _______   , _______      , KC_MS_BTN3    , KC_MS_BTN1, KC_MS_BTN2, _______, _______, _______, KC_AUDIO_VOL_DOWN, KC_AUDIO_MUTE
     ),
 
 
@@ -271,14 +275,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------+                                               +------+------+------+------+------+--------|
  * | Click  | LCTL |  Z   |  X   |  C   |  V   |                                               |   B  |  1   |  2   |  3   |      | Click  |
  * `----------------------+------+------+------+------+------|                   |------+------+------+------+------+----------------------'
- *                        |   M  |  I   |  Alt |  Spc |  Esc |                   |      |      |      |  0   |      |
+ *                        |  M   |  I   |  Alt |  Spc |  Esc |                   |      |      |      |  0   |      |
  *                        `----------------------------------'                   `----------------------------------'
  */
     [_GAMES] = LAYOUT(
-      KC_T     ,  KC_TAB   , KC_Q, KC_W, KC_E, KC_R,                                                     _______,  KC_7, KC_8, KC_9, _______, _______,
-      KC_G     ,  KC_LSFT, KC_A, KC_S, KC_D, KC_F,                                                     _______,  KC_4, KC_5, KC_6, _______, _______,
-      LDIAL_CLK,KC_LCTL    , KC_Z, KC_X, KC_C, KC_V, KC_MISS, KC_MISS    , KC_MISS, KC_MISS, KC_B   ,  KC_1, KC_2, KC_3, _______, RDIAL_CLK,
-                                  KC_M, KC_I, KC_LALT, KC_SPACE, KC_ESCAPE     , _______   , _______   , _______,  KC_0, _______
+      KC_T     , KC_TAB , KC_Q, KC_W, KC_E, KC_R   ,                                         _______, KC_7   , KC_8   , KC_9   , _______  , _______,
+      KC_G     , KC_LSFT, KC_A, KC_S, KC_D, KC_F   ,                                         _______, KC_4   , KC_5   , KC_6   , _______  , _______,
+      LDIAL_CLK, KC_LCTL, KC_Z, KC_X, KC_C, KC_V   , _______ , _______   , _______, _______, KC_B   , KC_1   , KC_2   , KC_3   , _______, RDIAL_CLK,
+                                KC_M, KC_I, KC_LALT, KC_SPACE, KC_ESCAPE , _______, _______, _______, KC_0   , _______
     ),    
 
     /*
@@ -297,16 +301,53 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_PASS] = LAYOUT(
       _______  , KC_1        , KC_2,    KC_R,    KC_0,    KC_T,                                                    KC_U   , KC_O   , KC_7   , KC_6   , _______     , _______  ,
       _______  , LSFT_T(KC_Q), KC_4,    KC_W,    KC_5,    KC_E,                                                    KC_Y   , KC_H   , KC_3   , KC_8   , RSFT_T(KC_9), _______  ,
-      LDIAL_CLK,KC_A         , KC_S,    KC_D,    KC_F,    KC_G   , KC_MISS, KC_MISS, KC_MISS, KC_MISS, KC_I   , KC_J   , _______, _______, _______     , RDIAL_CLK,
+      LDIAL_CLK,KC_A         , KC_S,    KC_D,    KC_F,    KC_G   , _______, _______, _______, _______, KC_I   , KC_J   , _______, _______, _______     , RDIAL_CLK,
                                _______, _______, _______, _______, _______   , _______   , _______   , _______   , _______, _______
     ),
 
     [_NUMPAD] = LAYOUT(
-      KC_NUM_LOCK,  KC_NO,          KC_LGUI,        KC_NO,          KC_NO,          TODEFAULT,                   KC_KP_SLASH,    KC_KP_7,           KC_KP_8,           KC_KP_9,           KC_KP_ASTERISK, TO(_PASS),
-      _______,  KC_LCTL ,       KC_LALT,        KC_LSFT,      _______, KC_NO,                          KC_KP_DOT,      KC_KP_4,           KC_KP_5,           KC_KP_6,           KC_KP_PLUS,     KC_BSPC  ,
-      LDIAL_CLK,KC_LCTL   , LALT_T(KC_BSLS  ), KC_CIRC, KC_PIPE, KC_GRAVE,  KC_MISS, KC_MISS, KC_MISS, KC_MISS, KC_KP_COMMA,       KC_KP_1,           KC_KP_2,           KC_KP_3, _______, RDIAL_CLK,
+      KC_NUM_LOCK,  XXXXXXX,          KC_LGUI,        XXXXXXX,          XXXXXXX,          TODEFAULT,                   KC_KP_SLASH,    KC_KP_7,           KC_KP_8,           KC_KP_9,           KC_KP_ASTERISK, TO(_PASS),
+      _______,  KC_LCTL ,       KC_LALT,        KC_LSFT,      _______, XXXXXXX,                          KC_KP_DOT,      KC_KP_4,           KC_KP_5,           KC_KP_6,           KC_KP_PLUS,     KC_BSPC  ,
+      LDIAL_CLK,KC_LCTL   , LALT_T(KC_BSLS  ), KC_CIRC, KC_PIPE, KC_GRAVE,  _______, _______, _______, _______, KC_KP_COMMA,       KC_KP_1,           KC_KP_2,           KC_KP_3, _______, RDIAL_CLK,
                                                _______, _______, _______,  _______, _______, _______, _______,   _______,     KC_KP_0,      KC_KP_MINUS 
     ),
+
+
+    /*
+ * Movement Layer
+ *
+ * ,-------------------------------------------.                              ,-----------------------------------------------.
+ * |        |      | Win  |(this)|      |(TO0) |                              |C-Home| Home |  Up  | PgUp |Insert   |Rec-Start|
+ * |--------+------+------+------+------+------|                              |------+------+------+------+---------+---------|
+ * |        | LCTL | LALT |      | LSHFT|      |                              |C-Left| Left | Down | Right|C-Rgt    | Ctr-`   |
+ * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+---------+---------|
+ * | Click  |      |      |      | LCTL |Ctr-` |      |      |  |      |      |C-End | End  | Tab  | PgDn |Scrl-Lck |  Click  |
+ * `----------------------+------+------+------+ Undo | Redo |  | Copy | Paste|------+------+------+--------------------------'
+ *                        |      |      |      |      |      |  |      |      | Del  | Ins  | Back |
+ *                        `----------------------------------'  `----------------------------------'
+ */
+    [_MOVEMENT2] = LAYOUT(
+      _______,  KC_LCTL , KC_LALT, _______, KC_LSFT , TODEFAULT     ,                                                  MEH(KC_HOME), LCA(KC_HOME)    , MEH(KC_UP)        , LCA(KC_PGUP)       , KC_INSERT     , _______, //DYN_REC_START1
+      _______,  KC_LCTL , KC_LALT, _______, KC_LSFT , XXXXXXX       ,                                                  MEH(KC_LEFT), LCA(KC_LEFT), MEH(KC_DOWN)       , LCA(KC_RIGHT) , MEH(KC_RIGHT), LCTL(KC_GRAVE),
+      LDIAL_CLK,XXXXXXX , XXXXXXX, XXXXXXX, KC_LCTL , LCTL(KC_GRAVE), _______   , _______   , _______   , _______    , MEH(KC_END) , LCA(KC_END)      , MEH(KC_LEFT_BRACKET), LCA(KC_PGDN)       , KC_SCROLL_LOCK, RDIAL_CLK     ,
+                                   _______, _______ , _______       , KC_PC_UNDO, KC_PC_REDO, KC_PC_COPY, KC_PC_PASTE, KC_DELETE    , KC_INSERT   , KC_WWW_BACK
+    ),
+
+/*
+ *  Layer: 
+ *
+ * ,-------------------------------------------.                              ,-------------------------------------------.
+ * |        |      |      |      |      |      |                              |      |      |      |      |      |        |
+ * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |                              |      |      |      |      |      |        |
+ * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
+ * |  Click |      |      |      |      |      |      |      |  |      |      |      |      |      |      |      | Click  |
+ * `----------------------+------+------+------+      |      |  |      |      +------+------+------+----------------------'
+ *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        `----------------------------------'  `----------------------------------'
+ */
+
+
 
     /*
  * Goto Layer
@@ -324,7 +365,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // [_GOTO] = LAYOUT(
     //   _______,  _______, _______, _______, _______,   TODEFAULT,                                             _______,  _______, _______, _______, _______, _______,
     //   _______,  _______, _______, _______, _______, _______,                                                 _______,  _______, _______, _______, _______, _______,
-    //   LDIAL_CLK,_______, _______, _______, _______, _______, KC_MISS, KC_MISS, KC_MISS, KC_MISS, _______,  _______, _______, _______, _______, RDIAL_CLK,
+    //   LDIAL_CLK,_______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______, _______, RDIAL_CLK,
     //                               _______, _______, _______, _______   , _______   , _______   , _______   , _______,  _______, _______
     // ),
 
@@ -345,7 +386,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // [_QWERTY] = LAYOUT(
     //  KC_TAB  , KC_Q ,  KC_W   ,  KC_E  ,   KC_R ,   KC_T ,                                             KC_Y,   KC_U ,  KC_I ,   KC_O ,  KC_P , KC_BSPC,
     //  CTL_ESC , KC_A ,  KC_S   ,  KC_D  ,   KC_F ,   KC_G ,                                             KC_H,   KC_J ,  KC_K ,   KC_L ,KC_SCLN,CTL_QUOT,
-    //  KC_LSFT , KC_Z ,  KC_X   ,  KC_C  ,   KC_V ,   KC_B , KC_MISS,KC_MISS,KC_MISS,KC_MISS,KC_N,   KC_M ,KC_COMM, KC_DOT ,KC_SLSH, KC_RSFT,
+    //  KC_LSFT , KC_Z ,  KC_X   ,  KC_C  ,   KC_V ,   KC_B , _______,_______,_______,_______,KC_N,   KC_M ,KC_COMM, KC_DOT ,KC_SLSH, KC_RSFT,
     //                             TO(0)  , KC_LGUI, ALT_ENT, KC_BSPC   ,KC_ESC    ,KC_ENTER  ,KC_SPC    ,KC_RALT, KC_RGUI, KC_APP
     // ),
 /*
@@ -364,7 +405,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // [_APPS] = LAYOUT(
     //   _______,  _______, _______, _______, _______,   TODEFAULT,                                             _______,  _______, _______, _______, _______, _______,
     //   _______,  _______, _______, _______, _______, _______,                                                 _______,  _______, _______, _______, _______, _______,
-    //   LDIAL_CLK,_______, _______, _______, _______, _______, KC_MISS, KC_MISS, KC_MISS, KC_MISS, _______,  _______, _______, _______, _______, RDIAL_CLK,
+    //   LDIAL_CLK,_______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______, _______, RDIAL_CLK,
     //                               _______, _______, _______, _______   , _______   , _______   , _______   , _______,  _______, _______
     // ),    
 };
